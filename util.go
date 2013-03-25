@@ -116,6 +116,10 @@ func scanMapIntoStruct(obj interface{}, objMap map[string][]byte) error {
 		case reflect.Struct:
 			x, _ := time.Parse("2006-01-02 15:04:05.000 -0700", string(data))
 			v = x
+		// Support time ptr's as well
+		case reflect.Ptr:
+			x, _ := time.Parse("2006-01-02 15:04:05.000 -0700", string(data))
+			v = &x
 		default:
 			return errors.New("unsupported type in Scan: " + reflect.TypeOf(v).String())
 		}
